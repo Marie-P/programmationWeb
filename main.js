@@ -67,7 +67,7 @@ function afficherTableau()
 			// On peut trier la colonne
 			people.sort((a, b) => 
 			{
-				return a[value] > b[value];
+				return a[propertyName] > b[propertyName];
 			});
 			// On réaffiche alors la page avec la colonne triée
 			afficherTableau();
