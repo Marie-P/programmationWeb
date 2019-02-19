@@ -8,11 +8,11 @@ let table = document.createElement("table")
 
 function main()
 {
+	faker.locale = "fr";
 	document.body.appendChild(table);
 
 	//Génère 50 identités
-	for(let i = 0; i < 50; i++)
-		
+	for(let i = 0; i < 50; i++)	
 	{
 		// Génère 1 identité
 		let person =
@@ -20,9 +20,9 @@ function main()
 			last : faker.fake("{{name.lastName}}"),
 			first : faker.fake("{{name.firstName}}"),
 			age : randRange(18, 100),
-			job : faker.fake("{{name.jobTitle}}"),
-			tel : faker.fake("{{phone.phoneNumberFormat}}"),
-			address : faker.fake("{{address.streetAddress}}, {{address.country}}")
+			job : faker.fake("{{name.jobType}}"),
+			tel : faker.fake("{{phone.phoneNumber}}"),
+			address : faker.fake("{{address.city}}")
 		};
 
 		// On stocke les personnes dans people
@@ -41,8 +41,29 @@ function randRange(min, max){
 function afficherTableau()
 {
 	// Permet d'effacer le contenu du tableau à chaque fois que la fonction est rappelée
-	table.innerHTML = "";
+	while(table.hasChildNodes()) table.removeChild(table.lastChild);
 
+	btnClick();
+	
+	// Boucle sur tous les éléments du tableau qui pour chaque personne dans le tableau crée une ligne
+	for(let person of people)
+	{
+		let line = document.createElement("tr");
+
+		// Boucle sur les propriétés des objets qui pour chaque personne crée une cellule
+		for(let property in person)
+		{
+			let cell = document.createElement("td");
+			cell.textContent = person[property];
+			line.appendChild(cell); // Ajoute la cellule à la ligne
+		}
+		// Ajoute la ligne au tableau
+		table.appendChild(line);
+	}
+}
+
+function btnClick()
+{
 	// On met les boutons en ligne
 	let buttonsOnLine = document.createElement("tr");
 
@@ -81,20 +102,4 @@ function afficherTableau()
 	}
 	// Ajoute la ligne au tableau
 	table.appendChild(buttonsOnLine);
-
-	// Boucle sur tous les éléments du tableau qui pour chaque personne dans le tableau crée une ligne
-	for(let person of people)
-	{
-		let line = document.createElement("tr");
-
-		// Boucle sur les propriétés des objets qui pour chaque personne crée une cellule
-		for(let property in person)
-		{
-			let cell = document.createElement("td");
-			cell.textContent = person[property];
-			line.appendChild(cell); // Ajoute la cellule à la ligne
-		}
-		// Ajoute la ligne au tableau
-		table.appendChild(line);
-	}
 }
